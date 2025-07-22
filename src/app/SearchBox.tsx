@@ -19,7 +19,8 @@ export default function SearchBox({ onSearch }: { onSearch: (kw: string) => void
         placeholder="Search customer name..."
         className="border px-2 py-1 mr-2"
       />
-      <button type="submit" className="px-2 py-1 bg-blue-500 text-white rounded">
+      <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+
         Search
       </button>
     </form>

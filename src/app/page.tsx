@@ -53,7 +53,7 @@ export default function Home() {
                 <tr key={c.customerNumber}>
                   <td className="border px-2 py-1">{idx + 1}</td>
                   <td className="border px-2 py-1">{c.customerName} {c.customerLastName}</td>
-                  <td className="border px-2 py-1">{c.country}</td>
+                  <td className="border px-2 py-1">{c.city}, {c.country}</td>
                 </tr>
               ))}
             </tbody>
