@@ -9,6 +9,7 @@ const connectionConfig = {
   uri: "mysql://3Kv6WiNXfeRrBaX.root:tD6PNr2JifRcBl8r@gateway01.ap-southeast-1.prod.aws.tidbcloud.com:4000/classicmodels",
   ssl: {
     ca: ca,
+    rejectUnauthorized: false,
   },
 };
 
@@ -31,6 +32,27 @@ export async function getCustomers(keyword: string = "") {
      }
      sql += " ORDER BY customerName LIMIT 10";
     const [rows] = await conn.query(sql, params);
+    return rows;
+  } catch (error) {
+    console.error("การเรียกใช้ Customer ผิดพลาด ใน getCustomers:",sql);
+   
+    throw error; // Re-throw the error to be caught by the API route
+  } finally {
+    if (conn) {
+      await conn.end();
+    }
+  }
+}
+export async function getCustomers_simple() {
+  let conn;
+  let sql = "SELECT * FROM customers";
+  try {
+    conn = await getConnection();
+        
+    sql += " WHERE 1";
+
+     sql += " ORDER BY customerName desc LIMIT 10";
+    const [rows] = await conn.query(sql);
     return rows;
   } catch (error) {
     console.error("การเรียกใช้ Customer ผิดพลาด ใน getCustomers:",sql);
