@@ -17,17 +17,28 @@ export async function getConnection() {
   return connection;
 }
 
-// ตัวอย่างการ query
+// Simplified query for troubleshooting
 export async function getCustomers(keyword: string = "") {
-  const conn = await getConnection();
+  let conn;
   let sql = "SELECT * FROM customers";
-  let params: any[] = [];
-  if (keyword) {
-    sql += " WHERE customerName LIKE ? OR country LIKE ?";
-    params = [`%${keyword}%`, `%${keyword}%`];
+  try {
+    conn = await getConnection();
+     
+     let params: any[] = [];
+     if (keyword) {
+       sql += " WHERE customerName LIKE ? OR country LIKE ?";
+       params = [`%${keyword}%`, `%${keyword}%`];
+     }
+     sql += " ORDER BY customerName LIMIT 10";
+    const [rows] = await conn.query(sql, params);
+    return rows;
+  } catch (error) {
+    console.error("Database error in getCustomers:",sql);
+   
+    throw error; // Re-throw the error to be caught by the API route
+  } finally {
+    if (conn) {
+      await conn.end();
+    }
   }
-  sql += " ORDER BY customerName LIMIT 10";
-  const [rows] = await conn.query(sql, params);
-  await conn.end();
-  return rows;
 }
