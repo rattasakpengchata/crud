@@ -33,7 +33,7 @@ export async function getCustomers(keyword: string = "") {
     const [rows] = await conn.query(sql, params);
     return rows;
   } catch (error) {
-    console.error("Database error in getCustomers:",sql);
+    console.error("การเรียกใช้ Customer ผิดพลาด ใน getCustomers:",sql);
    
     throw error; // Re-throw the error to be caught by the API route
   } finally {
